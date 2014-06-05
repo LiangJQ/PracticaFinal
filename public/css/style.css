@@ -1,13 +1,17 @@
 body {
     font-family:'WOL_SL','Segoe UI Semilight','Segoe UI',Tahoma,Helvetica,sans-serif;
-    background-image: url('../resources/background.png');
 }
 
 #view {
-    margin: auto;
-    margin-top: 50px;
+    margin: 70px auto;
     width: 1500px;
-    height: 1000px;
+    height: 1200px;;
+    background-color: #FFFFFF;
+    box-shadow: 3px 3px 3px 3px #999;
+    -webkit-box-shadow: 3px 3px 3px 3px #999;
+    -moz-box-shadow: 3px 3px 3px 3px #999;
+    filter: shadow(color=#999999, direction=135, strength=2);
+    overflow: hidden;
 }
 #header {
     width: 100%;
@@ -164,7 +168,7 @@ div.container {
 div#home {
     background-color: rgb(208, 101, 3);
 }
-div#calendar {
+div#activities {
     background-color: rgb(233, 147, 26);
 }
 div#invitation {
@@ -173,7 +177,7 @@ div#invitation {
 div#workshop {
     background-color: rgb(22, 107, 162);
 }
-div#profile {
+div#dashboard {
     background-color: rgb(27, 54, 71);
 }
 div#logo {

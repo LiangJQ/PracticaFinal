@@ -10,13 +10,13 @@
 </div>  
 
 <div class="divcont" id="divc">
-    <h1>Dashboard</h1>
-    <p>Dashboard</p><br>
-    <p>Dashboard</p><br>
-    <p>Dashboard</p><br>
-    <p>Dashboard</p><br>
-    <p>Dashboard</p><br>
-    <p>Dashboard</p><br>
+    <h1>Workshop</h1>
+    <p>Workshop</p><br>
+    <p>Workshop</p><br>
+    <p>Workshop</p><br>
+    <p>Workshop</p><br>
+    <p>Workshop</p><br>
+    <p>Workshop</p><br>
 </div>       
 
 <div class="divcont" id="divr">
