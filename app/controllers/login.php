@@ -8,6 +8,7 @@ class Login extends Controller {
 
     function __construct() {
         parent::__construct();
+        echo "dsadjksabdksajbdoaf";
     }
 
     function login() {

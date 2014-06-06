@@ -6,4 +6,6 @@
 
 ?>
 
-This page doesn't exists<br>
+<div id="error">
+    <img src="<?php echo URL . IMG_PATH; ?>404_only.png">
+</div>

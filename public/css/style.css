@@ -5,19 +5,21 @@ body {
 #view {
     margin: 70px auto;
     width: 1500px;
-    height: 1200px;;
+    min-height: 1000px;
     background-color: #FFFFFF;
     box-shadow: 3px 3px 3px 3px #999;
     -webkit-box-shadow: 3px 3px 3px 3px #999;
     -moz-box-shadow: 3px 3px 3px 3px #999;
     filter: shadow(color=#999999, direction=135, strength=2);
-    overflow: hidden;
 }
 #header {
     width: 100%;
     height: 180px;
 }
-
+#footer{
+    width: 100%;
+    height: 80px;
+}
 
 /*  Start 
     "Login" 
@@ -253,23 +255,20 @@ div.container:hover img.icon, div.container:hover img#logo_png {
     section   */
 #content{
     width: 100%;
-    height: 100%;
     background-color: #FFFFFF;
 }
 #divh{
     width: 100%;
     height: 40px;
 }
-.divcont{
-    float: left;
-}
-#divl, #divr{
-    width: 20%;
-    height: 100%;
-}
 #divc{
-    width: 60%;
-    height: 100%;
+    width: 100%;
+    margin: auto;
+}
+.divcont{
+    width: 80%;
+    display: block;
+    margin: auto;
 }
 #divc h1{
     font-size: 35pt;
@@ -281,6 +280,52 @@ div.container:hover img.icon, div.container:hover img#logo_png {
     padding-top: 25px;
     font-size: 25pt;
 }
+#error img{
+    display: block;
+    margin: auto;
+}
 /*  End 
     "Content" 
     section   */
+
+/*  Start 
+    "Activities table" 
+    section   */
+.tabActivities .activitiesTitle{
+    text-align: center;
+    padding-bottom: 30px;
+}
+.tabActivities table { 
+    margin: 10px auto;
+    margin-bottom: 40px;
+    text-align: left;
+    width: 90%; 
+    table-layout:fixed;
+} 
+.tabActivities span{
+    font-size: 16px;
+    font-weight: 600; 
+}
+.tabActivities {
+    background: #fff;
+    overflow: hidden; 
+}
+.tabActivities table td, .tabActivities table th {
+    display:table-cell;
+    width: 70px;
+    padding: 12px 10px; 
+}
+.tabActivities table tbody td {
+    color: #00496B; 
+    border: 1px solid #E8E8E8;
+    font-size: 14px;
+    font-weight: normal; 
+}
+.tabActivities table tbody .alt td {
+    background: #E8E8E8; 
+    color: #00496B; 
+}
+/*  End 
+    "Activities table" 
+    section   */
+

@@ -1,17 +1,18 @@
 <?php
 
-/*
+/* 
  * Author: Liang Shan Ji
  */
 
-class Dashboard extends Controller {
+class User extends Controller {
 
     function __construct() {
         parent::__construct();
-
+        
         $loggedIn = Session::get('is_user_logged_in');
-
-        if ($loggedIn == false) {
+        $role = Session::get('user_role');
+        
+        if ($loggedIn == false || $role != 'user') {
             Session::destroy();
             header('location: ' . URL . 'index');
             exit;
@@ -19,8 +20,7 @@ class Dashboard extends Controller {
     }
 
     function index() {
-        $this->view->personalInformation = $this->model->personalInformation();
-        $this->view->render('dashboard/index');
+        $this->view->render('user/index');
     }
 
 }

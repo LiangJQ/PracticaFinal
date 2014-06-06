@@ -5,10 +5,12 @@
  */
 function autoload($class) {
     // if file does not exist in LIBS_PATH folder [set it in config/paths.php]
+    if ($class != 'R') {   
     if (file_exists(LIBS_PATH . $class . ".php")) {
-        require LIBS_PATH . $class . ".php";
-    } else {
-        exit ('The file ' . $class . '.php is missing in the libs folder.');
+            require LIBS_PATH . $class . ".php";
+        } else {
+            exit('The file ' . $class . '.php is missing in the libs folder.');
+        }
     }
 }
 

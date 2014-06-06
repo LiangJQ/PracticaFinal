@@ -5,4 +5,9 @@
  */
 
 define('USER_LOGGED_IN', true);
-define('USER_NOT_LOGGED_IN', false);
+
+define('ROLE_USER', 'user');
+define('ROLE_ADMIN', 'admin');
+define('ROLE_OWNER', 'owner');
+
+define('REDIRECT_URL', 'redirect/url/');

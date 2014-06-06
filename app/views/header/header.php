@@ -14,11 +14,9 @@
         <div id="view">
             <div id="header">
                 <div id="login">
-                    <?php
-                    if (Session::get('is_user_logged_in') == false) {
-                        ?>
+                    <?php if (Session::get('is_user_logged_in') == false) { ?>
                         <!-- login form box -->
-                        <form method="post" action="<?php echo URL; ?>login/login" name="loginform" class="login">
+                        <form method="post" action="<?php echo URL; ?>login/login" name="login" class="login">
                             <p>
                                 <label class="textstyle" for="login">User ID</label>
                                 <input type="text" name="user_id" id="login_input_username" placeholder="User ID" class="login_input" required>
@@ -34,9 +32,7 @@
                                 <input type="button" name="register" value="Register" onclick="alert('TODO')">
                             </p>     
                         </form>     
-                        <?php
-                    } else {
-                        ?>          
+                    <?php } else { ?>          
                         <!-- user information -->
                         <div id="loggedin">
                             <table class="login">
@@ -45,9 +41,7 @@
                                         <p class="fieldr textstyle">User ID:</p>
                                     </td>
                                     <td class="tdl">
-                                        <?php
-                                        echo "<p class='fieldl textstyle'>" . Session::get('user_id') . "<p>";
-                                        ?>
+                                        <p class='fieldl textstyle'><?php echo Session::get('user_id'); ?> <p>
                                     </td>
                                 </tr>
                                 <tr>
@@ -55,9 +49,7 @@
                                         <p class="fieldr textstyle">Username:</p>
                                     </td>
                                     <td class="tdl">
-                                        <?php
-                                        echo "<p class='fieldl textstyle'>" . Session::get('user_name') . "<p>";
-                                        ?>
+                                        <p class='fieldl textstyle'><?php echo Session::get('user_name'); ?> <p>
                                     </td>
                                 </tr>
                                 <tr>
@@ -67,33 +59,23 @@
                                 </tr>
                             </table>                
                         </div>
-                        <?php
-                    }
-                    ?>
+                    <?php } ?>
                 </div>     
 
                 <header>
 
-                    <?php
-                    if (Session::get('is_user_logged_in') == true) {
-                        ?>
+                    <?php if (Session::get('is_user_logged_in') == true) { ?>
                         <div class="container" id="logo">
-
                             <a href="<?php echo URL; ?>index">
                                 <img class="icon" id="logo_png" src="<?php echo URL . IMG_PATH; ?>logo_small.png">
                             </a>
-                            <?php
-                        } else {
-                            ?>
+                        <?php } else { ?>
                             <div class="container" id="logo_large">
                                 <a href="<?php echo URL; ?>index">
                                     <img class="icon" id="logo_png_large" src="<?php echo URL . IMG_PATH; ?>logo_large.png">
                                 </a>
-                                <?php
-                            }
-                            ?>
+                            <?php } ?>
                         </div>
-
                         <div class="container" id="home">
                             <a href="<?php echo URL; ?>index">
                                 <img class="icon" src="<?php echo URL . IMG_PATH; ?>home.png">
@@ -107,9 +89,7 @@
                             </a>
                             <p class="text">Activities</p>
                         </div>
-                        <?php
-                        if (Session::get('is_user_logged_in') == true) {
-                            ?>
+                        <?php if (Session::get('is_user_logged_in') == true) { ?>
                             <div class="container" id="invitation">
                                 <a href="<?php echo URL; ?>invitation">
                                     <img class="icon" src="<?php echo URL . IMG_PATH; ?>invitation.png">
@@ -130,9 +110,7 @@
                                 </a>
                                 <p class="text">Dashboard</p>
                             </div>
-                            <?php
-                        }
-                        ?>
+                        <?php } ?>
                 </header>
             </div>
 

@@ -32,7 +32,11 @@ class App {
         // calling methods
         if (isset($url[2])) {
             if (method_exists($controller, $url[1])) {
-                $controller->{$url[1]}($url[2]);
+                if ($url[0] . $url[1] == REDIRECT_URL) {
+                    $url[2] = substr($urlAll, strlen(REDIRECT_URL));
+                } else {
+                    $controller->{$url[1]}($url[2]);
+                }
             } else {
                 $this->error();
             }
