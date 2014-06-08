@@ -18,11 +18,11 @@
                         <!-- login form box -->
                         <form method="post" action="<?php echo URL; ?>login/login" name="login" class="login">
                             <p>
-                                <label class="textstyle" for="login">User ID</label>
+                                <label class="textstyle" for="user_id">User ID</label>
                                 <input type="text" name="user_id" id="login_input_username" placeholder="User ID" class="login_input" required>
                             </p>
                             <p>
-                                <label class="textstyle" for="password">Password</label>
+                                <label class="textstyle" for="user_password">Password</label>
                                 <input type="password" name="user_password" id="login_input_password" placeholder="Password" class="login_input" autocomplete="off" required> 
                             </p>
                             <p>
@@ -104,11 +104,11 @@
                                 <p class="text">Workshop</p>
                             </div>
 
-                            <div class="container" id="dashboard">                                                               
-                                <a href="<?php echo URL; ?>dashboard">
-                                    <img class="icon" src="<?php echo URL . IMG_PATH; ?>dashboard.png">
+                            <div class="container" id="manager">                                                               
+                                <a href="<?php echo URL; ?>manager">
+                                    <img class="icon" src="<?php echo URL . IMG_PATH; ?>manager.png">
                                 </a>
-                                <p class="text">Dashboard</p>
+                                <p class="text">Manager</p>
                             </div>
                         <?php } ?>
                 </header>

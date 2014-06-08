@@ -6,58 +6,112 @@
 
 class App {
 
-    function __construct() {
+    private $_url = null;
+    private $_controller = null;
 
-        $urlAll = filter_input(INPUT_GET, 'url') ? filter_input(INPUT_GET, 'url') : null;
-        $url = explode('/', rtrim($urlAll, '/'));
+    /**
+     * Starts App
+     */
+    public function init() {
+        // Sets private $_url
+        $this->_getUrl();
 
-        if (empty($url[0])) {
-            require CONTROLLERS_PATH . 'index.php';
-            $controller = new Index();
-            $controller->index();
-            return false;
+        // Load the default controller if no URL is set
+        if (empty($this->_url[0])) {
+            $this->_loadDefaultController();
         }
 
-        $file = CONTROLLERS_PATH . $url[0] . '.php';
+        // Load the available controller
+        $this->_loadAvailableController();
+
+
+        // Calls methods of controller
+        $this->_callControllerMethod();
+    }
+
+    /**
+     * Display an error page
+     * 
+     * @return boolean
+     */
+    private function _error() {
+        require CONTROLLERS_PATH . 'error.php';
+        $this->_controller = new Error();
+        $this->_controller->index();
+        exit();
+    }
+
+    /**
+     * Gets $_GET from 'url' and sets it to $_url
+     */
+    private function _getUrl() {
+        $urlAll = filter_input(INPUT_GET, 'url') ? filter_input(INPUT_GET, 'url') : null;
+        $this->_url = explode('/', rtrim($urlAll, '/'));
+    }
+
+    /**
+     * Loads if there is no $_GET parameter passed
+     */
+    private function _loadDefaultController() {
+        require CONTROLLERS_PATH . 'index.php';
+        $this->_controller = new Index();
+        $this->_controller->index();
+        exit();
+    }
+
+    /**
+     * Loads if there ARE $_GET parameters passed
+     */
+    private function _loadAvailableController() {
+        $file = CONTROLLERS_PATH . $this->_url[0] . '.php';
 
         if (file_exists($file)) {
             require $file;
+            $this->_controller = new $this->_url[0];
+            $this->_controller->loadModel($this->_url[0]);
         } else {
-            $this->error();
-        }
-
-        $controller = new $url[0];
-        $controller->loadModel($url[0]);
-
-        // calling methods
-        if (isset($url[2])) {
-            if (method_exists($controller, $url[1])) {
-                if ($url[0] . $url[1] == REDIRECT_URL) {
-                    $url[2] = substr($urlAll, strlen(REDIRECT_URL));
-                } else {
-                    $controller->{$url[1]}($url[2]);
-                }
-            } else {
-                $this->error();
-            }
-        } else {
-            if (isset($url[1])) {
-                if (method_exists($controller, $url[1])) {
-                    $controller->{$url[1]}();
-                } else {
-                    $this->error();
-                }
-            } else {
-                $controller->index();
-            }
+            $this->_error();
         }
     }
 
-    function error() {
-        require CONTROLLERS_PATH . 'error.php';
-        $controller = new Error();
-        $controller->index();
-        return false;
+    /**
+     * Calls method of the controller if the method is passed in $_GET parameter
+     * 
+     * Eg. http://localhost/{root folder}/{controller}/{method}/{(parameter)}/{(parameter)}/{(parameter)}
+     * 
+     * $this->_url[0] = controller
+     * $this->_url[1] = method
+     * $this->_url[2] = parameter
+     * $this->_url[3] = parameter
+     * $this->_url[4] = parameter
+     * 
+     * @return boolean
+     */
+    private function _callControllerMethod() {
+
+        $length = count($this->_url);
+
+        if ($length > 1 && !method_exists($this->_controller, $this->_url[1])) {
+            $this->_error();
+        }
+
+        switch ($length) {
+            case 5:
+                $this->_controller->{$this->_url[1]}($this->_url[2], $this->_url[3], $this->_url[4]);
+                break;
+            case 4:
+                $this->_controller->{$this->_url[1]}($this->_url[2], $this->_url[3]);
+                break;
+            case 3:
+                $this->_controller->{$this->_url[1]}($this->_url[2]);
+                break;
+            case 2:
+                $this->_controller->{$this->_url[1]}();
+                break;
+            default:
+                $this->_controller->index();
+                break;
+        }
     }
 
 }
