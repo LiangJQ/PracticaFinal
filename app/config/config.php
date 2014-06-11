@@ -15,7 +15,7 @@ define('ROLE_USER', 'user');
 define('ROLE_ADMIN', 'admin');
 define('ROLE_OWNER', 'owner');
 
-define('REDIRECT_URL', 'redirect/url/');
+define('REDIRECT_URL', 'redirect/');
 
 // Change password related messages
 define('PASSWORD_UPDATE_SUCCESFUL', 'Your password has been updated');

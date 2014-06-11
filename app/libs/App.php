@@ -20,6 +20,8 @@ class App {
         if (empty($this->_url[0])) {
             $this->_loadDefaultController();
         }
+        // (Possible) Redirect webiste
+        $this->_redirectWebsite();
 
         // Load the available controller
         $this->_loadAvailableController();
@@ -111,6 +113,27 @@ class App {
             default:
                 $this->_controller->index();
                 break;
+        }
+    }
+
+    /**
+     * Redirect website 
+     * 
+     * Eg. http://localhost/{root folder}/{controller}/{url}
+     * 
+     * $this->_url[0] = controller
+     * $this->_url[1] = url
+     * 
+     */
+    private function _redirectWebsite() {
+
+        $length = count($this->_url);
+
+        if ($length > 0 && $this->_url[0] == 'redirect') {
+            $urlAll = filter_input(INPUT_GET, 'url');
+            $urlWeb = str_replace(':/', '://', str_replace(REDIRECT_URL, '', strstr($urlAll, REDIRECT_URL)));
+            header('Location: ' . $urlWeb);
+            exit();
         }
     }
 

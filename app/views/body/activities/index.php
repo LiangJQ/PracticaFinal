@@ -38,7 +38,7 @@
                             $urlWeb = explode('[{()}]', rtrim($value->workshop_url_web, '[{()}]'));
                             foreach ($urlWeb as $keyWeb => $valueWeb) {
                                 ?>
-                                <a href="<?php echo URL . REDIRECT_URL . $valueWeb; ?>" target="_blank"><?php echo $valueWeb; ?></a><br>
+                                <a href="<?php echo URL . REDIRECT_URL . $valueWeb; ?>"><?php echo $valueWeb; ?></a><br>
                             <?php }
                             ?>
                         </td>
@@ -50,7 +50,7 @@
                             $urlFile = explode('[{()}]', rtrim($value->workshop_url_file, '[{()}]'));
                             foreach ($urlFile as $keyFile => $valueFile) {
                                 ?>
-                                <a href="<?php echo URL . REDIRECT_URL . $valueFile; ?>" target="_blank"><?php echo $valueFile; ?></a><br>
+                                <a href="<?php echo URL . REDIRECT_URL . $valueFile; ?>"><?php echo $valueFile; ?></a><br>
                             <?php }
                             ?>
                         </td>
