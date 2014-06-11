@@ -13,25 +13,42 @@ class Database extends PDO {
     }
 
     /**
-     * Database Select
+     * Database selectStatement
      * 
      * @param string $table         : name of table to select
-     * @param string $array         : strings array of attributes
-     * @param string $condition     : WHERE $condition !!{DO NOT ADD "WHERE"}!!
-     * @param string $bindValues    : (Optional) associative array
+     * @param string $attr         : strings array of attributes
+     * @param string $condition     : WHERE $condition
+     * @param string $conditionArrayValues    : (Optional) associative array if need binding condition values
      * @return Resulset
      */
-    public function select($table, $array, $condition, $bindValues = array()) {
+    private function selectStatement($table, $attr, $condition = null, $conditionArrayValues = array()) {
 
-        $attr = implode(', ', $array);
+        $attrr = implode(', ', $attr);
 
-        $sth = $this->prepare("SELECT $attr FROM $table WHERE $condition");
+        $sth = $this->prepare("SELECT $attrr FROM $table $condition");
 
-        foreach ($bindValues as $key => $value) {
+        foreach ($conditionArrayValues as $key => $value) {
             $sth->bindValue(":$key", $value);
         }
 
         $sth->execute();
+
+        return $sth;
+    }
+
+    /**
+     * Database Select
+     * 
+     * @param string $table         : name of table to select
+     * @param string $attr         : strings array of attributes
+     * @param string $condition     : WHERE $condition
+     * @param string $conditionArrayValues    : (Optional) associative array if need binding condition values
+     * @return array of Objects             : Row(s)
+     */
+    public function select($table, $attr, $condition = null, $conditionArrayValues = array()) {
+
+        $sth = $this->selectStatement($table, $attr, $condition, $conditionArrayValues);
+
         if ($sth->rowCount() > 1) {
             return $sth->fetchAll();
         } else {
@@ -40,10 +57,27 @@ class Database extends PDO {
     }
 
     /**
+     * Database Row Count
+     * 
+     * @param string $table         : name of table to select
+     * @param string $attr         : strings array of attributes
+     * @param string $condition     : WHERE $condition
+     * @param string $conditionArrayValues    : (Optional) associative array if need binding condition values
+     * @return integer          : row count
+     */
+    public function rowCountNumber($table, $attr, $condition = null, $conditionArrayValues = array()) {
+
+        $sth = $this->selectStatement($table, $attr, $condition, $conditionArrayValues);
+
+        return $sth->rowCount();
+    }
+
+    /**
      * Database Insert
      * 
      * @param string $table : name of table to insert to
      * @param string $data  : associative array
+     * @return bool         : TRUE on success or FALSE on failure
      */
     public function insert($table, $data) {
 
@@ -58,33 +92,34 @@ class Database extends PDO {
             $sth->bindValue(":$key", $value);
         }
 
-        $sth->execute();
+        return $sth->execute();
     }
 
     /**
      * Database Update
      * 
-     * @param string $table     : name of table to update
-     * @param string $data      : associative array
-     * @param string $condition : condition(s)
+     * @param string $table         : name of table to update
+     * @param string $data          : associative array
+     * @param string $condition     : WHERE $condition 
+     * @param string $conditionArrayValues : (Optional) associative array if need binding condition values
      */
-    public function update($table, $data, $condition, $bindValues = array()) {
+    public function update($table, $data, $condition, $conditionArrayValues = array()) {
 
         ksort($data);
 
         $dataDetails = null;
         foreach ($data as $key => $value) {
-            $dataDetails .= "`$key` = :$key,";
+            $dataDetails .= "`$key` = :$key, ";
         }
-        $dataDetails = rtrim($dataDetails, ',');
+        $dataDetails = rtrim($dataDetails, ', ');
 
-        $sth = $this->prepare("UPDATE $table SET $dataDetails WHERE $condition");
+        $sth = $this->prepare("UPDATE $table SET $dataDetails $condition");
 
         foreach ($data as $key => $value) {
             $sth->bindValue(":$key", $value);
         }
-        
-        foreach ($bindValues as $key => $value) {
+
+        foreach ($conditionArrayValues as $key => $value) {
             $sth->bindValue(":$key", $value);
         }
 
@@ -95,16 +130,16 @@ class Database extends PDO {
      * Database Delete
      * 
      * @param string $table         : name of table to select
-     * @param string $condition     : WHERE $condition !!{DO NOT ADD "WHERE"}!!
-     * @param string $bindValues    : (Optional) associative array
+     * @param string $condition     : WHERE $condition 
+     * @param string $conditionArrayValues    : (Optional) associative array if need binding condition values
      * @param int $limit            : (Optional) limit number of rows to delete. Default = 1
      * @return int                  : affected rows 
      */
-    public function delete($table, $condition, $bindValues = array(), $limit = 1) {
+    public function delete($table, $condition, $conditionArrayValues = array(), $limit = 1) {
 
-        $sth = $this->prepare("DELETE FROM $table WHERE $condition");
+        $sth = $this->prepare("DELETE FROM $table $condition");
 
-        foreach ($bindValues as $key => $value) {
+        foreach ($conditionArrayValues as $key => $value) {
             $sth->bindValue(":$key", $value);
         }
 

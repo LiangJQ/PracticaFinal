@@ -8,7 +8,7 @@
     <div class="divcont">
         
         <h1>Asociaci&oacute;n TDWTech</h1>
-        <p>
+        <p class="info">
             Una asociaci&oacute;n donde sus asociados organizan, por iniciativa propia, 
             talleres de trabajo que consisten en reuniones de personas cualificadas (asociados siempre) 
             que discuten acerca de las ventajas e inconvenientes de la utilizaci&oacute;n de las nuevas apariciones tecnol&oacute;gicas y 

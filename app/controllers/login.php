@@ -11,8 +11,11 @@ class Login extends Controller {
     }
 
     function login() {
-        echo 'asdsada';
-        $this->model->login();
+        $data = array(
+            'id' => filter_input(INPUT_POST, 'user_id'),
+            'password' => filter_input(INPUT_POST, 'user_password')
+        );
+        $this->model->login($data);
     }
     
     function logout(){

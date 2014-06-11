@@ -6,7 +6,6 @@
 
 // Load config
 require 'app/config/config.php';
-require UTILS_PATH . 'Auth.php';
 require CONFIG_PATH . 'autoload.php';
 
 // Load External libs

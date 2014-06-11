@@ -17,18 +17,18 @@
                     <?php if (Session::get('is_user_logged_in') == false) { ?>
                         <!-- login form box -->
                         <form method="post" action="<?php echo URL; ?>login/login" name="login" class="login">
-                            <p>
+                            <p class="loginText">
                                 <label class="textstyle" for="user_id">User ID</label>
-                                <input type="text" name="user_id" id="login_input_username" placeholder="User ID" class="login_input" required>
+                                <input type="text" name="user_id" id="login_input_userid" placeholder="User ID" class="login_input" required>
                             </p>
-                            <p>
+                            <p class="loginText">
                                 <label class="textstyle" for="user_password">Password</label>
                                 <input type="password" name="user_password" id="login_input_password" placeholder="Password" class="login_input" autocomplete="off" required> 
                             </p>
-                            <p>
+                            <p class="loginText">
                                 <input type="submit" name="login" value="Log in">
                             </p>       
-                            <p>
+                            <p class="loginText"> 
                                 <input type="button" name="register" value="Register" onclick="alert('TODO')">
                             </p>     
                         </form>     

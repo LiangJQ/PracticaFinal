@@ -21,11 +21,12 @@ class Activities_Model extends Model {
             'workshop_date',
             'workshop_authorize'
         );
-        $condition = "workshop_date BETWEEN CURRENT_DATE AND CURRENT_DATE + INTERVAL ".LIMIT_DAY_VIEW ." DAY AND workshop_authorize = :workshop_authorize ORDER BY workshop_date ASC";
-        $bindValues = array(
+        $condition = "WHERE workshop_date BETWEEN CURRENT_DATE AND CURRENT_DATE + INTERVAL " . LIMIT_DAY_VIEW . " DAY "
+                . "AND workshop_authorize = :workshop_authorize ORDER BY workshop_date ASC";
+        $conditionArrayValues = array(
             'workshop_authorize' => 'Y'
         );
-        return $this->db->select('workshop', $attr, $condition, $bindValues);
+        return $this->db->select('workshop', $attr, $condition, $conditionArrayValues);
     }
 
 }

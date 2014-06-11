@@ -10,7 +10,7 @@ class Login_Model extends Model {
         parent::__construct();
     }
 
-    public function login() {
+    public function login($data) {
 
         // get user's data
         $attr = array('user_id',
@@ -19,14 +19,14 @@ class Login_Model extends Model {
             'user_email',
             'user_role'
         );
-        $condition = "user_id = :user_id";
-        $bindValues = array(
-            'user_id' => filter_input(INPUT_POST, 'user_id')
+        $condition = "WHERE user_id = :user_id";
+        $conditionArrayValues = array(
+            'user_id' => $data['id']
         );
-        $result = $this->db->select('users', $attr, $condition, $bindValues);
+        $result = $this->db->select('users', $attr, $condition, $conditionArrayValues);
 
         // check if provided password matches the password in the database
-        if (filter_input(INPUT_POST, 'user_password') == $result->user_password) {
+        if ($data['password'] == $result->user_password) {
 
             // login process, write the user data into session
             Session::init();

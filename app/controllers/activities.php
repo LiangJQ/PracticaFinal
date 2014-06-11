@@ -11,7 +11,12 @@ class Activities extends Controller {
     }
 
     function index() {
-        $this->view->listActivities = $this->model->listActivities();
+        $list = $this->model->listActivities();
+        if (!empty($list)) {
+            is_array($list) ? $this->view->listActivities = $list : $this->view->listActivities = array($list);
+        } else {
+            $this->view->listActivities = $list;
+        }
         $this->view->render('activities/index');
     }
 
