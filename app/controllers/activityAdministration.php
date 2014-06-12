@@ -17,17 +17,20 @@ class ActivityAdministration extends Controller {
     }
 
     function listActivities() {
+        $this->view->listActivitiesLimited = $this->model->listActivitiesLimited();
         $data = $this->model->listActivities();
-        $dataLimited = $this->model->listActivitiesLimited();
-        is_array($data) ? $this->view->listActivities = $data : $this->view->listActivities = array($data);
-        is_array($dataLimited) ? $this->view->listActivitiesLimited = $dataLimited : $this->view->listActivitiesLimited = array($dataLimited);
-        $this->renderArrayDefault('editactivities');
+        if (!empty($data)) {
+            is_array($data) ? $this->view->listActivities = $data : $this->view->listActivities = array($data);
+        } else {
+            $this->view->listActivities = $data;
+        }
+        $this->_renderArrayDefault('editactivities');
         Session::set('createActivity_success?', '');
         Session::set('deleteActivity_success?', '');
     }
 
     function createActivity() {
-        $data = $this->fetchPostActivityData();
+        $data = $this->_fetchPostActivityData();
 
         if ($this->model->activityCheckExist($data) == 0) {
             $this->model->createActivity($data);
@@ -45,48 +48,29 @@ class ActivityAdministration extends Controller {
     }
 
     function editActivity($id) {
-        $dataLimited = $this->model->listActivitiesLimited();
-        is_array($dataLimited) ? $this->view->listActivitiesLimited = $dataLimited : $this->view->listActivitiesLimited = array($dataLimited);
+        $this->view->listActivitiesLimited = $this->model->listActivitiesLimited();
         $this->view->activity = $this->model->singleActivity($id);
-        $this->renderArrayDefault('editActivity');
+        $this->_renderArrayDefault('editActivity');
         Session::set('editActivity_success?', '');
     }
 
     function editActivitySave($id) {
-        $data = $this->fetchPostActivityData();
+        $data = $this->_fetchPostActivityData();
 
-        $currentActivity = $this->model->singleActivity($id);
-
-        if ($this->model->ActivityCheckExist($data) == 0) {
+        if ($this->model->activityCheckExist($data) == 0) {
             $this->model->editActivitySave($data, $id);
             Session::set('editActivity_success?', ACTIVITY_EDITED);
         } else if ($this->model->activityCheckExist($data) == 1) {
-            if ($data['workshop_id'] == $id) {
+            if ($this->model->singleActivityByData($data)->workshop_id == $id) {
                 $this->model->editActivitySave($data, $id);
                 Session::set('editActivity_success?', ACTIVITY_EDITED);
-            } else if ($data['workshop_name'] == $currentActivity->workshop_name && $data['workshop_date'] == $currentActivity->workshop_date && empty($this->model->singleActivityByManagerId($data['workshop_user_id']))) {
-                $this->model->editActivitySave($data, $id);
-                Session::set('editActivity_success?', ACTIVITY_EDITED);
+            } else {
+                Session::set('editActivity_success?', ACTIVITY_EDIT_ERROR);
             }
         } else {
             Session::set('editActivity_success?', ACTIVITY_EDIT_ERROR);
         }
         header('Location: ' . URL . 'activityadministration/editActivity/' . $id);
-    }
-
-    private function fetchPostActivityData() {
-        $data = array(
-            'workshop_id' => filter_input(INPUT_POST, 'workshop_id'),
-            'workshop_user_id' => filter_input(INPUT_POST, 'workshop_user_id'),
-            'workshop_name' => filter_input(INPUT_POST, 'workshop_name'),
-            'workshop_description' => filter_input(INPUT_POST, 'workshop_description'),
-            'workshop_url_web' => $this->formatUrl(filter_input(INPUT_POST, 'workshop_url_web')),
-            'workshop_url_file' => $this->formatUrl(filter_input(INPUT_POST, 'workshop_url_file')),
-            'workshop_date' => filter_input(INPUT_POST, 'workshop_date'),
-            'workshop_request' => filter_input(INPUT_POST, 'workshop_request'),
-            'workshop_authorize' => filter_input(INPUT_POST, 'workshop_authorize')
-        );
-        return $data;
     }
 
     public function authorizeActivities() {
@@ -96,7 +80,7 @@ class ActivityAdministration extends Controller {
         } else {
             $this->view->listActivities = $data;
         }
-        $this->renderArrayDefault('authorizeActivities');
+        $this->_renderArrayDefault('authorizeActivities');
         Session::set('activity_authorized?', '');
     }
 
@@ -112,7 +96,7 @@ class ActivityAdministration extends Controller {
         header('Location: ' . URL . 'activityadministration/authorizeActivities');
     }
 
-    private function formatUrl($url) {
+    private function _formatUrl($url) {
         $urlFormatted = null;
         $urlPrepare = ltrim($url);
         $urlPrepare = explode("\n", $urlPrepare);
@@ -122,7 +106,22 @@ class ActivityAdministration extends Controller {
         return $urlFormatted;
     }
 
-    private function renderArrayDefault($filename) {
+    private function _fetchPostActivityData($id = "") {
+        $data = array(
+            'workshop_id' => $id,
+            'workshop_user_id' => filter_input(INPUT_POST, 'workshop_user_id'),
+            'workshop_name' => filter_input(INPUT_POST, 'workshop_name'),
+            'workshop_description' => empty(filter_input(INPUT_POST, 'workshop_description')) ? "" : filter_input(INPUT_POST, 'workshop_description'),
+            'workshop_url_web' => empty(rtrim($this->_formatUrl(filter_input(INPUT_POST, 'workshop_url_web')), '[{()}]')) ? "" : filter_input(INPUT_POST, 'workshop_url_web'),
+            'workshop_url_file' => empty(rtrim($this->_formatUrl(filter_input(INPUT_POST, 'workshop_url_file')), '[{()}]')) ? "" : filter_input(INPUT_POST, 'workshop_url_file'),
+            'workshop_date' => filter_input(INPUT_POST, 'workshop_date'),
+            'workshop_request' => empty(filter_input(INPUT_POST, 'workshop_request')) ? "N" : filter_input(INPUT_POST, 'workshop_request'),
+            'workshop_authorize' => empty(filter_input(INPUT_POST, 'workshop_authorize')) ? "P" : filter_input(INPUT_POST, 'workshop_authorize')
+        );
+        return $data;
+    }
+
+    private function _renderArrayDefault($filename) {
         $array = array(
             1 => "manager/menuaction",
             2 => "activityadministration/$filename"

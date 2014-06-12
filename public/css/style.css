@@ -294,12 +294,25 @@ div.container:hover img.icon, div.container:hover img#logo_png {
     "Activities table" 
     section   */
 .tabActivities{
+    margin-top: 50px;
+    background-color: #FFFFFF;
+    box-shadow: 0px 1px 1px 1px rgba(0, 0, 0, 0.3);
+    -webkit-box-shadow: 0px 1px 1px 1px rgba(0, 0, 0, 0.3);
+    -moz-box-shadow: inset 0px 1px 1px 1px rgba(0, 0, 0, 0.3);
+    overflow: hidden;
     display: block;
     margin: auto;
 }
-.tabActivities .activitiesTitle{
+.tabActivities .activityTitle{
+    height: 50px;
+    margin-bottom: 20px;
+    margin-top: 20px;
     text-align: center;
-    padding-bottom: 30px;
+    display: block;
+}
+.tabActivities #title {
+    font-weight: 100;
+    font-size: 25pt;
 }
 .tabActivities table { 
     margin: 10px auto;
@@ -307,6 +320,9 @@ div.container:hover img.icon, div.container:hover img#logo_png {
     text-align: left;
     width: 90%; 
     table-layout:fixed;
+    box-shadow: 0px 1px 1px 1px rgba(0, 0, 0, 0.3);
+    -webkit-box-shadow: 0px 1px 1px 1px rgba(0, 0, 0, 0.3);
+    -moz-box-shadow: inset 0px 1px 1px 1px rgba(0, 0, 0, 0.3);
 } 
 .tabActivities span{
     font-size: 16px;
@@ -337,12 +353,6 @@ div.container:hover img.icon, div.container:hover img#logo_png {
 
 /*  Start 
     "Manager page Section div divider"
-    ____________
-    |   |       |
-    |   |       |
-    |   |       |
-    |   |       |
-    ____________  
     section   */
 .menuSelection{
     width: 90%;
@@ -362,12 +372,6 @@ div.container:hover img.icon, div.container:hover img#logo_png {
 }
 /*  End 
     "Manager page Section div divider"
-    ____________
-    |   |       |
-    |   |       |
-    |   |       |
-    |   |       |
-    ____________  
     section   */
 
 /*  Start 
@@ -789,6 +793,7 @@ div.container:hover img.icon, div.container:hover img#logo_png {
 .editSingleUser .submit {
     text-align: center;
     font-weight: 700;
+    width: 40%;
     height: 44px;
     padding: 0 8px;
     border: 0px;
@@ -812,31 +817,30 @@ div.container:hover img.icon, div.container:hover img#logo_png {
 /*  Start 
     "Edit Activities" 
     section   */
-.createActivity{
-    width: 95%;
-    background-color: #FFFFFF;
-    box-shadow: 0px 1px 1px 1px rgba(0, 0, 0, 0.3);
-    -webkit-box-shadow: 0px 1px 1px 1px rgba(0, 0, 0, 0.3);
-    -moz-box-shadow: inset 0px 1px 1px 1px rgba(0, 0, 0, 0.3);
-    overflow: hidden;
-}
-.createActivity #createActivityTitle{
-    height: 50px;
-    margin-bottom: 20px;
-    margin-top: 20px;
-    text-align: center;
-    display: block;
-}
-.createActivity #title {
-    font-weight: 100;
-    font-size: 25pt;
-}
 .createActivity .actionCell{
     width: 100px;
     text-align: center; 
 }
-.createActivity .actionCell input[type = submit]{
+.createActivity .actionCell input[type=submit]{
+    padding: 2px;
     width: 100px;
+    background-color: #ecf0f1;
+    border: 0;
+    box-shadow: 0px 1px 1px 1px rgba(0, 0, 0, 0.3);
+    -webkit-box-shadow: 0px 1px 1px 1px rgba(0, 0, 0, 0.3);
+    -moz-box-shadow: 0px 1px 1px 1px rgba(0, 0, 0, 0.3);
+    font-weight: 700;
+    font-size: 15px;
+    color: #2c3e50;
+}
+.createActivity .actionCell input[type=submit]:active {
+    box-shadow: inset 0 0 3px rgba(0, 0, 0, 0.6);
+    border-color: #000;
+    border-color: rgba(0, 0, 0, 0.9);
+}
+.createActivity .actionCell input[type=submit]:hover{
+    background-color: #E0E0E0;
+    color: #7C8F71;
 }
 .createActivity .create_activity_input{
     width: 100%;
@@ -880,7 +884,7 @@ div.container:hover img.icon, div.container:hover img#logo_png {
     width: 60px;
     margin: 0 35px;
     padding: 5px 5px;
-    background-color: #324247;
+    background-color: #ecf0f1;
     box-shadow: 0px 1px 1px 1px rgba(0, 0, 0, 0.3);
     -webkit-box-shadow: 0px 1px 1px 1px rgba(0, 0, 0, 0.3);
     -moz-box-shadow: inset 0px 1px 1px 1px rgba(0, 0, 0, 0.3);
@@ -890,7 +894,7 @@ div.container:hover img.icon, div.container:hover img#logo_png {
     text-decoration: none;
     font-weight: 700;
     font-size: 15px;
-    color: #E8E8E8;
+    color: #2c3e50;
     display: block;
 }
 .editActivities .aAsButton:active {
@@ -925,8 +929,26 @@ div.container:hover img.icon, div.container:hover img#logo_png {
     width: 100px;
     text-align: center; 
 }
-.editActivity .actionCell input[type = submit]{
+.editActivity .actionCell input[type=submit]{
+    padding: 2px;
     width: 100px;
+    background-color: #ecf0f1;
+    border: 0;
+    box-shadow: 0px 1px 1px 1px rgba(0, 0, 0, 0.3);
+    -webkit-box-shadow: 0px 1px 1px 1px rgba(0, 0, 0, 0.3);
+    -moz-box-shadow: 0px 1px 1px 1px rgba(0, 0, 0, 0.3);
+    font-weight: 700;
+    font-size: 15px;
+    color: #2c3e50;
+}
+.editActivity .actionCell input[type=submit]:active {
+    box-shadow: inset 0 0 3px rgba(0, 0, 0, 0.6);
+    border-color: #000;
+    border-color: rgba(0, 0, 0, 0.9);
+}
+.editActivity .actionCell input[type=submit]:hover{
+    background-color: #E0E0E0;
+    color: #7C8F71;
 }
 .editActivity .edit_activity_input{
     width: 100%;
@@ -1001,4 +1023,231 @@ div.container:hover img.icon, div.container:hover img#logo_png {
 }
 /*  End 
     "Authorize Activities" 
+    section   */
+
+/*  Start 
+    "Workshop" 
+    section   */
+.actionZone{
+    width: 50%;
+    display: block;
+    margin: auto;
+}
+ .buttons{
+    width: 50%;
+    display: block;
+    margin: auto;
+}
+.fixButton{
+    width: 50%;
+    display: block;
+    margin: auto;
+}
+.manageActivity input[type=submit]{
+    float: left;
+    display: block;
+    margin: auto;
+    margin-bottom: 40px;
+    padding: 5px;
+    width: 100px;
+    background-color: #ecf0f1;
+    border: 0;
+    box-shadow: 0px 1px 1px 1px rgba(0, 0, 0, 0.3);
+    -webkit-box-shadow: 0px 1px 1px 1px rgba(0, 0, 0, 0.3);
+    -moz-box-shadow: 0px 1px 1px 1px rgba(0, 0, 0, 0.3);
+    font-weight: 700;
+    font-size: 15px;
+    color: #2c3e50;
+}
+.manageActivity input[type=submit]:active {
+    box-shadow: inset 0 0 3px rgba(0, 0, 0, 0.6);
+    border-color: #000;
+    border-color: rgba(0, 0, 0, 0.9);
+}
+.manageActivity input[type=submit]:hover{
+    background-color: #E0E0E0;
+    color: #7C8F71;
+}
+.manageActivity .aAsButton{
+    float: left;
+    text-align: center;
+    height: 20px;
+    width: 90px;
+    display: block;
+    margin: auto;
+    margin-left: 20px;
+    margin-bottom: 40px;
+    padding: 5px;
+    background-color: #ecf0f1;
+    box-shadow: 0px 1px 1px 1px rgba(0, 0, 0, 0.3);
+    -webkit-box-shadow: 0px 1px 1px 1px rgba(0, 0, 0, 0.3);
+    -moz-box-shadow: inset 0px 1px 1px 1px rgba(0, 0, 0, 0.3);
+}
+.manageActivity .aAsButton a{
+    padding: 0 7px;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 15px;
+    color: #2c3e50;
+    display: block;
+}
+.manageActivity .aAsButton:active {
+    box-shadow: inset 0 0 3px rgba(0, 0, 0, 0.6);
+    border-color: #000;
+    border-color: rgba(0, 0, 0, 0.9);
+}
+.manageActivity .aAsButton:hover, .manageActivity .aAsButton:hover a{
+    background-color: #E0E0E0;
+    color: #7C8F71;
+}
+.manageActivity .manage_activity_input{
+    width: 100%;
+}
+.manageActivity #manage_activity_input_workshop_url_web{
+    height: 200px;
+}
+.manageActivity #manage_activity_input_workshop_url_file{
+    height: 200px;
+}
+.manageActivity .additionalDescription{
+    font-size: 9pt;
+}
+.manageActivity .manage_activity_input{
+    width: 100%;
+}
+.confirmActivity .aAsButton{
+    float: left;
+    text-align: center;
+    height: 20px;
+    width: 150px;
+    display: block;
+    margin: auto;
+    margin-bottom: 40px;
+    padding: 5px;
+    background-color: #ecf0f1;
+    box-shadow: 0px 1px 1px 1px rgba(0, 0, 0, 0.3);
+    -webkit-box-shadow: 0px 1px 1px 1px rgba(0, 0, 0, 0.3);
+    -moz-box-shadow: inset 0px 1px 1px 1px rgba(0, 0, 0, 0.3);
+}
+.confirmActivity .aAsButton a{
+    padding: 0 7px;
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 15px;
+    color: #2c3e50;
+    display: block;
+}
+.confirmActivity .aAsButton:active {
+    box-shadow: inset 0 0 3px rgba(0, 0, 0, 0.6);
+    border-color: #000;
+    border-color: rgba(0, 0, 0, 0.9);
+}
+.confirmActivity .aAsButton:hover, .confirmActivity .aAsButton:hover a{
+    background-color: #E0E0E0;
+    color: #7C8F71;
+}
+
+.inviteUsers .userListCheck {
+    display: table;
+    width: 50%;
+    margin: 0 auto 40px;
+}
+.inviteUsers .userListCheck .row {
+    display: table-row;
+}
+.inviteUsers .userListCheck .usersFullname,
+.inviteUsers .userListCheck .switch {
+    display: table-cell;
+    vertical-align: middle;
+    padding: 10px;
+}
+.userListCheck .usersFullname {
+    width: 600px;
+    font-size: 20px;
+}
+.inviteUsers .checkToggleGeneral {
+    position: absolute;
+    margin-left: -9999px;
+    visibility: hidden;
+}
+.inviteUsers .checkToggleGeneral + label {
+    display: block;
+    position: relative;
+    cursor: pointer;
+    outline: none;
+}
+.inviteUsers input.additionalCheckToggleStyle + label {
+    padding: 2px;
+    width: 60px;
+    height: 30px;
+    background-color: #dddddd;
+    -webkit-transition: background 0.4s;
+    -moz-transition: background 0.4s;
+    -o-transition: background 0.4s;
+    transition: background 0.4s;
+}
+.inviteUsers input.additionalCheckToggleStyle + label:before,
+.inviteUsers input.additionalCheckToggleStyle + label:after {
+    display: block;
+    position: absolute;
+    content: "";
+}
+.inviteUsers input.additionalCheckToggleStyle + label:before {
+    top: 2px;
+    left: 2px;
+    bottom: 2px;
+    right: 2px;
+    background-color: #fff;
+    -webkit-transition: background 0.4s;
+    -moz-transition: background 0.4s;
+    -o-transition: background 0.4s;
+    transition: background 0.4s;
+}
+.inviteUsers input.additionalCheckToggleStyle + label:after {
+    top: 4px;
+    left: 4px;
+    bottom: 4px;
+    width: 26px;
+    background-color: #dddddd;
+    -webkit-transition: margin 0.4s, background 0.4s;
+    -moz-transition: margin 0.4s, background 0.4s;
+    -o-transition: margin 0.4s, background 0.4s;
+    transition: margin 0.4s, background 0.4s;
+}
+.inviteUsers input.additionalCheckToggleStyle:checked + label {
+    background-color: #8ce196;
+}
+.inviteUsers input.additionalCheckToggleStyle:checked + label:after {
+    margin-left: 30px;
+    background-color: #8ce196;
+}
+
+.inviteUsers input[type=submit]{
+    float: left;
+    display: block;
+    margin: auto;
+    margin-bottom: 40px;
+    padding: 5px;
+    width: 100px;
+    background-color: #ecf0f1;
+    border: 0;
+    box-shadow: 0px 1px 1px 1px rgba(0, 0, 0, 0.3);
+    -webkit-box-shadow: 0px 1px 1px 1px rgba(0, 0, 0, 0.3);
+    -moz-box-shadow: 0px 1px 1px 1px rgba(0, 0, 0, 0.3);
+    font-weight: 700;
+    font-size: 15px;
+    color: #2c3e50;
+}
+.inviteUsers input[type=submit]:active {
+    box-shadow: inset 0 0 3px rgba(0, 0, 0, 0.6);
+    border-color: #000;
+    border-color: rgba(0, 0, 0, 0.9);
+}
+.inviteUsers input[type=submit]:hover{
+    background-color: #E0E0E0;
+    color: #7C8F71;
+}
+
+/*  End 
+    "Workshop" 
     section   */

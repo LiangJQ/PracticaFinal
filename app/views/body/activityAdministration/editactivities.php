@@ -16,7 +16,7 @@
     <?php }
     ?>
     <div class="createActivity tabActivities">
-        <div id="createActivityTitle"><p id="title">Create activity</p></div>
+        <div class="activityTitle"><p id="title">Create activity</p></div>
         <form method="post" action="<?php echo URL; ?>activityAdministration/createActivity">
             <table>
                 <tr>

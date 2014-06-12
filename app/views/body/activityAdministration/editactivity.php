@@ -70,9 +70,9 @@
                     </td>
                     <td colspan="5">                        
                         <textarea name="workshop_url_file" id="edit_activity_input_workshop_url_file"  class="edit_activity_input" ><?php
-                            $urlWeb = explode('[{()}]', rtrim($this->activity->workshop_url_file, '[{()}]'));
-                            foreach ($urlWeb as $keyWeb => $valueWeb) {
-                                echo $valueWeb . "\n";
+                            $urlFile = explode('[{()}]', rtrim($this->activity->workshop_url_file, '[{()}]'));
+                            foreach ($urlFile as $keyFile => $valueFile) {
+                                echo $valueFile . "\n";
                             }
                             ?></textarea>
                     </td>

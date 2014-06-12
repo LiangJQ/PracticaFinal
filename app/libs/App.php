@@ -126,14 +126,16 @@ class App {
      * 
      */
     private function _redirectWebsite() {
-
-        $length = count($this->_url);
-
-        if ($length > 0 && $this->_url[0] == 'redirect') {
-            $urlAll = filter_input(INPUT_GET, 'url');
-            $urlWeb = str_replace(':/', '://', str_replace(REDIRECT_URL, '', strstr($urlAll, REDIRECT_URL)));
-            header('Location: ' . $urlWeb);
-            exit();
+        if ($this->_url[0] == 'redirect') {
+            $length = count($this->_url);
+            if ($length > 1) {
+                $urlAll = filter_input(INPUT_GET, 'url');
+                $urlWeb = str_replace(':/', '://', str_replace(REDIRECT_URL, '', strstr($urlAll, REDIRECT_URL)));
+                header('Location: ' . $urlWeb);
+                exit();
+            } else {
+                header('Location: ' . URL);
+            }
         }
     }
 

@@ -18,7 +18,8 @@
     <div class="createUsers">
         <div id="createUsersTitle"><p id="title">Create user</p></div>
         <form method="post" action="<?php echo URL; ?>userAdministration/createUser">
-            <input type="text" name="user_name" placeholder="Username" autocomplete="off" required>
+            <input type="text" name="user_name" placeholder="Name" autocomplete="off" required>
+            <input type="text" name="user_surname" placeholder="Surname" autocomplete="off" required>
             <input type="password" name="user_password" placeholder="Password" autocomplete="off" required>
             <input type="email" name="user_email" placeholder="Email" autocomplete="off" required>
             <?php if (Session::get('user_role') == ROLE_OWNER) { ?>
@@ -27,7 +28,7 @@
                     <input type="radio" name="user_role" value="user"><label for="user_role" class="valueRole">Admin</label>
                 </div>
             <?php } ?>
-            <input type="submit" class="submit <?php echo Session::get('user_role') == ROLE_OWNER ? "addSelect" : ''; ?>" value="Create">
+            <input type="submit" class="submit <?php echo Session::get('user_role') == ROLE_OWNER ? "" : 'addSelect'; ?>" value="Create">
         </form>
     </div>
     <div class="editUsers" >
@@ -36,7 +37,7 @@
             <tr>
                 <th></th>
                 <th>Id</th>
-                <th>Name</th>
+                <th>Full Name</th>
                 <th>Password</th>
                 <th>Email</th>
                 <th>Role</th>
@@ -54,7 +55,7 @@
                         <a href="<?php echo URL . "userAdministration/deleteUser/" . $value->user_id; ?>" onclick='return confirm("Delete user \"<?php echo $value->user_name; ?>\" ?")'>Delete</a>
                     </td>
                     <td><?php echo $value->user_id; ?></td>
-                    <td><?php echo $value->user_name; ?></td>
+                    <td><?php echo $value->user_surname . ", " . $value->user_name; ?></td>
                     <td><?php echo $value->user_password; ?></td>
                     <td><?php echo $value->user_email; ?></td>
                     <td><?php echo $value->user_role; ?></td>

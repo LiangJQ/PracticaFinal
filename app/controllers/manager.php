@@ -12,11 +12,11 @@ class Manager extends Controller {
     }
 
     function index() {
-        $this->renderArrayDefault('index');
+        $this->_renderArrayDefault('index');
     }
 
     function changePass() {
-        $this->renderArrayDefault('changepassword');
+        $this->_renderArrayDefault('changepassword');
         Session::set('password_success?', '');
     }
 
@@ -30,7 +30,7 @@ class Manager extends Controller {
         header('Location: ' . URL . 'manager/changePass');
     }
 
-    private function renderArrayDefault($filename) {
+    private function _renderArrayDefault($filename) {
         $array = array(
             1 => "manager/menuaction",
             2 => "manager/$filename"

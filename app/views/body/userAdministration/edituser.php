@@ -16,8 +16,12 @@
                 <input type = "text" name = "user_id" value = "<?php echo $this->user->user_id; ?>" autocomplete = "off" required>
             </div>
             <div>
-                <label for = "user_name" class = "labelField">Username</label>
+                <label for = "user_name" class = "labelField">Name</label>
                 <input type = "text" name = "user_name" value = "<?php echo $this->user->user_name; ?>" autocomplete = "off" required>
+            </div>
+            <div>
+                <label for = "user_surname" class = "labelField">Surname</label>
+                <input type = "text" name = "user_surname" value = "<?php echo $this->user->user_surname; ?>" autocomplete = "off" required>
             </div>
             <div>
                 <label for = "user_password" class = "labelField">Password</label>
@@ -34,7 +38,7 @@
                     <input type="radio" name="user_role" value="admin" <?php echo $this->user->user_role == 'admin' ? 'checked' : ''; ?>><label for="user_role" class="valueRole">Admin</label>
                 </div>
             <?php } ?>
-            <input type="submit" class="submit <?php echo Session::get('user_role') != ROLE_OWNER ? "addSelect" : ''; ?>" value="Edit">
+            <input type="submit" class="submit <?php echo Session::get('user_role') != ROLE_OWNER ? "" : 'addSelect'; ?>" value="Edit">
         </form>
     </div>
 </div>

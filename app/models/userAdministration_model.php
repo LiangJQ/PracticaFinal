@@ -12,12 +12,12 @@ class UserAdministration_Model extends Model {
 
     public function listUsers() {
         $attr = array('*');
-        $condition = "WHERE user_role = :role ORDER BY user_name ASC";
+        $condition = "WHERE user_role = :role ORDER BY user_surname, user_name ASC";
         $conditionArrayValues = array(
             'role' => 'user'
         );
         if (Session::get('user_role') == ROLE_OWNER) {
-            $condition = "WHERE user_role <> :role";
+            $condition = "WHERE user_role <> :role ORDER BY user_surname, user_name ASC";
             $conditionArrayValues['role'] = 'owner';
         }
         return $this->db->select('users', $attr, $condition, $conditionArrayValues);
@@ -61,7 +61,7 @@ class UserAdministration_Model extends Model {
         foreach ($data as $key => $value) {
             if ($value == '') {
                 unset($data[$key]);
-            } else if ($key == 'user_password' || $key == 'user_role') {
+            } else if ($key == 'user_password' || $key == 'user_role' || $key == 'user_name' || $key == 'user_surname') {
                 unset($data[$key]);
             } else {
                 $condition .= " " . $key . " = :" . $key . " OR";

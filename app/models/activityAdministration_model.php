@@ -19,8 +19,14 @@ class ActivityAdministration_Model extends Model {
         $condition = "WHERE workshop_date BETWEEN CURRENT_DATE + " . START_DAY . " AND CURRENT_DATE + INTERVAL " . MAX_LIMIT_DAY_TO_CREATE . " DAY ";
         $result = $this->db->select('workshop', array('*'), $condition);
         $dataArray = array();
-        foreach ($result as $key => $value) {
-            $dataArray[] = $value->workshop_date;
+        if (!empty($result)) {
+            if (is_array($result)) {
+                foreach ($result as $value) {
+                    $dataArray[] = $value->workshop_date;
+                }
+            } else {
+                $dataArray[] = $result->workshop_date;
+            }
         }
         return $dataArray;
     }
@@ -50,12 +56,9 @@ class ActivityAdministration_Model extends Model {
         return $this->db->select('workshop', array('*'), $condition, $conditionArrayValues);
     }
 
-    public function singleActivityByManagerId($id) {
-        $condition = "WHERE workshop_user_id = :workshop_user_id";
-        $conditionArrayValues = array(
-            'workshop_user_id' => $id
-        );
-        return $this->db->select('workshop', array('*'), $condition, $conditionArrayValues);
+    public function singleActivityByData($data) {
+        $condition = $this->dataFormatForActivityCheckExist($data);
+        return $this->db->select('workshop', array('*'), $condition[0], $condition[1]);
     }
 
     public function editActivitySave($data, $id) {
@@ -100,7 +103,7 @@ class ActivityAdministration_Model extends Model {
     private function dataFormatForActivityCheckExist($data) {
         $condition = 'WHERE ';
         foreach ($data as $key => $value) {
-            if ($key == 'workshop_name' && $key == 'workshop_user_id' && $key == 'workshop_date' && $key == 'workshop_id') {
+            if ($key == 'workshop_name' || $key == 'workshop_user_id' || $key == 'workshop_date' || $key == 'workshop_id') {
                 $condition .= " " . $key . " = :" . $key . " OR";
             } else {
                 unset($data[$key]);
