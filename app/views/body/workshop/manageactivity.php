@@ -40,9 +40,15 @@
                         <td>                  
                             <select name="workshop_date" id="manage_activity_input_workshop_date" class="manage_activity_input" required>
                                 <?php
-                                for ($day = START_DAY; $day <= MAX_LIMIT_DAY_TO_CREATE; $day++) {
-                                    if (!in_array(date("Y-m-d", strtotime('+' . $day . ' day')), $this->listActivitiesLimited)) {
+                                if (empty($this->listActivitiesLimited)) {
+                                    for ($day = START_DAY; $day <= MAX_LIMIT_DAY_TO_CREATE; $day++) {
                                         echo "<option value='" . date("Y-m-d", strtotime('+' . $day . ' day')) . "'>" . date("Y-m-d", strtotime('+' . $day . ' day')) . "</option>";
+                                    }
+                                } else {
+                                    for ($day = START_DAY; $day <= MAX_LIMIT_DAY_TO_CREATE; $day++) {
+                                        if (!in_array(date("Y-m-d", strtotime('+' . $day . ' day')), $this->listActivitiesLimited)) {
+                                            echo "<option value='" . date("Y-m-d", strtotime('+' . $day . ' day')) . "'>" . date("Y-m-d", strtotime('+' . $day . ' day')) . "</option>";
+                                        }
                                     }
                                 }
                                 ?>

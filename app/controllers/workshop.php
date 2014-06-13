@@ -17,23 +17,111 @@ class Workshop extends Controller {
     }
 
     function index() {
+        $hasActivity = !empty($this->model->getUserActivity(Session::get('user_id'))->workshop_id) ? $this->model->getUserActivity(Session::get('user_id'))->workshop_id : '';
+        Session::set('userActivity', $hasActivity);
         $this->view->userActivity = $this->model->getUserActivity(Session::get('user_id'));
         $this->_renderArrayDefault('index');
     }
 
+    function distributeUsers() {
+        $userActivity = $this->model->getUserActivity(Session::get('user_id'));
+        $this->view->userActivity = $userActivity;
+        $usersInvited = array();
+        if (!empty($userActivity)) {
+            $dataUsersInvited = $this->model->listUsersInvited();
+            if (!empty($dataUsersInvited)) {
+                if (!is_array($dataUsersInvited)) {
+                    $usersInvited[] = array(
+                        'user_id' => $this->model->singleUser($dataUsersInvited->area_user_id)->user_id,
+                        'user_fullname' => $this->model->singleUser($dataUsersInvited->area_user_id)->user_surname . ", " . $this->model->singleUser($dataUsersInvited->area_user_id)->user_name,
+                        'user_table' => $dataUsersInvited->area_table,
+                        'user_seat' => $dataUsersInvited->area_seat
+                    );
+                } else {
+                    foreach ($dataUsersInvited as $value) {
+                        $usersInvited[] = array(
+                            'user_id' => $this->model->singleUser($value->area_user_id)->user_id,
+                            'user_fullname' => $this->model->singleUser($value->area_user_id)->user_surname . ", " . $this->model->singleUser($value->area_user_id)->user_name,
+                            'user_table' => $value->area_table,
+                            'user_seat' => $value->area_seat
+                        );
+                    }
+                }
+            }
+        }
+
+        $this->view->inviteList = $usersInvited;
+        $this->view->renderOnePage('workshop/distributeUsers', true);
+    }
+
+    function distributeUsersSave() {
+        $userDistributionList = json_decode(filter_input(INPUT_POST, 'user_distribution'));
+
+        $array['area_id'] = Session::get('userActivity');
+        $this->model->emptyUserDistribution($array['area_id']);
+        foreach ($userDistributionList as $value) {
+            foreach ($value as $key => $value) {
+                if ($key == 'id') {
+                    $array['area_user_id'] = $value;
+                }
+                if ($key == 'mesa') {
+                    $array['area_table'] = $value;
+                }
+                if ($key == 'silla') {
+                    $array['area_seat'] = $value;
+                }
+            }
+            if ($this->model->areaWorkshopCheckUserExist($array) == 1) {
+                $this->model->toZeroUserRow($array['area_user_id']);
+            }
+            if ($this->model->areaWorkshopCheckSeatExist($array) == 0) {
+                $this->model->distributedUsersSave($array);
+            } else {
+                $this->model->toZeroSeatRow($array['area_table'], $array['area_seat']);
+                $this->model->distributedUsersSave($array);
+            }
+        }
+        header('Location: ' . URL . 'workshop/distributeUsers');
+    }
+
     function inviteUsers() {
-        $data = $this->model->listUsers();
+        $usersInvited = array();
+        $data = $this->model->listUsersToInvite();
         is_array($data) ? $this->view->listUsers = $data : $this->view->listUsers = array($data);
+        $dataUsersInvited = $this->model->listUsersInvited();
+        if (!empty($dataUsersInvited)) {
+            if (!is_array($dataUsersInvited)) {
+                $usersInvited[] = $dataUsersInvited->area_user_id;
+            } else {
+                foreach ($dataUsersInvited as $value) {
+                    $usersInvited[] = $value->area_user_id;
+                }
+            }
+        }
+        $this->view->usersInvited = $usersInvited;
         $this->view->userActivity = $this->model->getUserActivity(Session::get('user_id'));
         $this->_renderArrayDefault('inviteUsers');
     }
 
     function inviteUsersList() {
-        $this->_fetchPostUserList();
-        header('Location: '. URL . 'workshop/inviteUsers');
+        $userChecked = $this->_fetchPostUserList();
+        $userList = $this->model->listUsersToInvite();
+        foreach ($userList as $value) {
+            $userUnchecked[] = $value->user_id;
+        }
+        foreach (array_diff($userUnchecked, $userChecked) as $value) {
+            $this->model->deleteUserRow($value);
+        }
+        foreach ($userChecked as $value) {
+            if ($this->model->areaWorkshopCheckUserExistSingle($value) == 0) {
+                $this->model->insertUserRow($value);
+            }
+        }
+        header('Location: ' . URL . 'workshop/inviteUsers');
     }
 
     function confirmActivity() {
+        $this->model->emptyInvitedUsersNoSeat();
         $this->view->userActivity = $this->model->getUserActivity(Session::get('user_id'));
         $this->_renderArrayDefault('confirmActivity');
     }
@@ -59,6 +147,8 @@ class Workshop extends Controller {
         if ($this->model->activityCheckExist($data) == 0) {
             $this->model->createActivity($data);
             Session::set('createActivity_success?', ACTIVITY_CREATED);
+            $hasActivity = !empty($this->model->getUserActivity(Session::get('user_id'))->workshop_id) ? $this->model->getUserActivity(Session::get('user_id'))->workshop_id : '';
+            Session::set('userActivity', $hasActivity);
         } else {
             Session::set('createActivity_success?', ACTIVITY_CREATE_ERROR);
         }
@@ -92,12 +182,13 @@ class Workshop extends Controller {
     }
 
     private function _fetchPostUserList() {
+        $data = array();
         if (!empty($_POST['user_id'])) {
             foreach ($_POST['user_id'] as $user_id) {
                 $data[] = $user_id;
             }
-            Session::set('checkedUsers', $data);
         }
+        return $data;
     }
 
     private function _fetchPostActivityData() {

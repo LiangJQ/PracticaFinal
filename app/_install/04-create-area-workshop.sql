@@ -1,14 +1,12 @@
-CREATE TABLE IF NOT EXISTS `practica_final`.`area_workshop` (
-  `area_workshop_id` int(11) NOT NULL,
-  `area_workshop_table` int(11) NOT NULL,
-  `area_workshop_seat` int(11) NOT NULL,
-  `area_workshop_user_id` int(11)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
-
-ALTER TABLE `practica_final`.`area_workshop`
-ADD CONSTRAINT `area_workshop_workshop_fk` FOREIGN KEY
-( `area_workshop_id` ) REFERENCES `practica_final`.`workshop` ( `workshop_id` );
-
-ALTER TABLE `practica_final`.`area_workshop`
-ADD CONSTRAINT `area_workshop_users_fk` FOREIGN KEY
-( `area_workshop_user_id` ) REFERENCES `practica_final`.`users` ( `user_id` );
+CREATE TABLE `area_workshop` (
+	`area_id` INT(11) NOT NULL,
+	`area_table` INT(11) NOT NULL DEFAULT '0',
+	`area_seat` INT(11) NOT NULL DEFAULT '0',
+	`area_user_id` INT(11) NOT NULL,
+	INDEX `FK_area_workshop_workshop` (`area_id`),
+	INDEX `FK_area_workshop_users` (`area_user_id`),
+	CONSTRAINT `FK_area_workshop_workshop` FOREIGN KEY (`area_id`) REFERENCES `workshop` (`workshop_id`) ON UPDATE CASCADE ON DELETE CASCADE,
+	CONSTRAINT `FK_area_workshop_users` FOREIGN KEY (`area_user_id`) REFERENCES `users` (`user_id`) ON UPDATE CASCADE ON DELETE CASCADE
+)
+COLLATE='utf8_unicode_ci'
+ENGINE=InnoDB;

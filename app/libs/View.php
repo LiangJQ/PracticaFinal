@@ -10,10 +10,11 @@ class View {
         
     }
 
-    public function render($filename, $noInclude = false) {
-        if ($noInclude == true) {
+    public function renderOnePage($filename) {
             require VIEWS_PATH . 'body/' . $filename . '.php';
-        }
+    }
+
+    public function render($filename) {
         require VIEWS_PATH . 'header/header.php';
         require VIEWS_PATH . 'body/' . $filename . '.php';
         require VIEWS_PATH . 'footer/footer.php';

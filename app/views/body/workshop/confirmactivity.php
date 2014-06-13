@@ -8,7 +8,7 @@
         <div class="activityTitle">
             <?php if ($this->userActivity->workshop_request == 'Y') { ?>
                 <div class="activityTitle">
-                    <p id="title">Your request to authorize your activity has been sent</p>
+                    <p id="title">Your request to authorize your activity has already been sent</p>
                 </div>
             <?php } else {
                 ?>

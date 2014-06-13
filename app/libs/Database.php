@@ -104,7 +104,6 @@ class Database extends PDO {
      * @param string $conditionArrayValues : (Optional) associative array if need binding condition values
      */
     public function update($table, $data, $condition, $conditionArrayValues = array()) {
-
         ksort($data);
 
         $dataDetails = null;
@@ -137,7 +136,7 @@ class Database extends PDO {
      */
     public function delete($table, $condition, $conditionArrayValues = array(), $limit = 1) {
 
-        $sth = $this->prepare("DELETE FROM $table $condition");
+        $sth = $this->prepare("DELETE FROM $table $condition LIMIT $limit");
 
         foreach ($conditionArrayValues as $key => $value) {
             $sth->bindValue(":$key", $value);

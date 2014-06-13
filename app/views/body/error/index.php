@@ -7,5 +7,5 @@
 ?>
 
 <div id="error">
-    <img src="<?php echo URL . IMG_PATH; ?>404_only.png">
+    <img src="<?php echo URL . IMG_PATH; ?>404.png">
 </div>
