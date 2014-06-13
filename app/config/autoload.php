@@ -7,8 +7,6 @@ function autoloadLibs($class) {
     // if file does not exist in LIBS_PATH folder [set it in config/paths.php]
     if (file_exists(LIBS_PATH . $class . ".php")) {
         require LIBS_PATH . $class . ".php";
-    } else {
-        echo ('The file ' . $class . '.php is missing in the libs folder.');
     }
 }
 
@@ -16,8 +14,6 @@ function autoloadUtils($class) {
     // if file does not exist in UTILS_PATH folder [set it in config/paths.php]
     if (file_exists(UTILS_PATH . "Util" . $class . ".php")) {
         require UTILS_PATH . "Util" . $class . ".php";
-    } else {
-        echo ('The file ' . $class . '.php is missing in the utils folder.');
     }
 }
 
@@ -25,8 +21,6 @@ function autoloadEntities($class) {
     // if file does not exist in ENTITIES_PATH folder [set it in config/paths.php]
     if (file_exists(ENTITIES_PATH . "E" . $class . ".php")) {
         require ENTITIES_PATH . "E" . $class . ".php";
-    } else {
-        echo ('The file ' . $class . '.php is missing in the entities folder.');
     }
 }
 

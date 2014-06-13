@@ -4,6 +4,9 @@
  * Author: Liang Shan Ji
  */
 
+/**
+ * Creates a PDO database connection.
+ */
 class Database extends PDO {
 
     function __construct($dbType, $dbHost, $dbName, $dbUser, $dbPass, $options = '') {

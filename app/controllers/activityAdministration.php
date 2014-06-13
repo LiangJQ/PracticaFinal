@@ -4,18 +4,34 @@
  * Author: Liang Shan Ji
  */
 
+/**
+ * Manages activities actions such as edit, create, delete, authorize activities.
+ */
 class ActivityAdministration extends Controller {
 
+    /**
+     * When constructs, check if user is logged in and is admin.
+     * It will automatically exit to index of web if user is not logged in or is an admin
+     */
     function __construct() {
         parent::__construct();
         Auth::checkLoggedIn();
         Auth::checkAdmin();
     }
 
+    /**
+     * Base page.
+     * Redirect to manger controller base page.
+     */
     function index() {
         header('Location: ' . URL . 'manager');
     }
 
+    /**
+     * Lists all existing activities.
+     * Passing to view a list of activities.
+     * Redirect to editactivities page
+     */
     function listActivities() {
         $this->view->listActivitiesLimited = $this->model->listActivitiesLimited();
         $data = $this->model->listActivities();
@@ -29,6 +45,10 @@ class ActivityAdministration extends Controller {
         Session::set('deleteActivity_success?', '');
     }
 
+    /**
+     * Creates a new activity
+     * Redirect to listActivities action
+     */
     function createActivity() {
         $data = $this->_fetchPostActivityData();
 
@@ -41,12 +61,23 @@ class ActivityAdministration extends Controller {
         header('Location: ' . URL . 'activityadministration/listActivities');
     }
 
+    /**
+     * Deletes activity by passing an activity id
+     * Redirect to listActivities action
+     * 
+     * @param int $id : activity id to be deleted
+     */
     function deleteActivity($id) {
         $this->model->deleteActivity($id);
         Session::set('deleteActivity_success?', ACTIVITY_DELETED);
         header('Location: ' . URL . 'activityadministration/listActivities');
     }
 
+    /**
+     * Redirects to another page to edit activity by passing an activity id
+     * 
+     * @param int $id : activity id to be edited
+     */
     function editActivity($id) {
         $this->view->listActivitiesLimited = $this->model->listActivitiesLimited();
         $this->view->activity = $this->model->singleActivity($id);
@@ -54,6 +85,12 @@ class ActivityAdministration extends Controller {
         Session::set('editActivity_success?', '');
     }
 
+    /**
+     * Saves all changes made of an activity passing an activity id
+     * Redirects to editActivity action
+     * 
+     * @param int $id : activity id to be edited
+     */
     function editActivitySave($id) {
         $data = $this->_fetchPostActivityData();
 
@@ -73,6 +110,10 @@ class ActivityAdministration extends Controller {
         header('Location: ' . URL . 'activityadministration/editActivity/' . $id);
     }
 
+    /**
+     * Redirects to another page to authorize activities.
+     * Lists activities which have sent request to be authorized
+     */
     public function authorizeActivities() {
         $data = $this->model->listActivitiesAuthorize();
         if (!empty($data)) {
@@ -84,18 +125,32 @@ class ActivityAdministration extends Controller {
         Session::set('activity_authorized?', '');
     }
 
+    /**
+     * Authorizes an activity with its id
+     * @param int $id : activity id to be authorized
+     */
     public function authorizeActivity($id) {
         $this->model->authorizeActivity($id);
         Session::set('activity_authorized?', ACTIVITY_AUTHORIZED);
         header('Location: ' . URL . 'activityadministration/authorizeActivities');
     }
 
+    /**
+     * Denies an activity with its id
+     * @param int $id : activity id to be denied
+     */
     public function denyActivity($id) {
         $this->model->denyActivity($id);
         Session::set('activity_authorized?', ACTIVITY_DENIED);
         header('Location: ' . URL . 'activityadministration/authorizeActivities');
     }
 
+    /**
+     * Formats urls in order to save them to database
+     * 
+     * @param string $url   : urls separated with '\n'
+     * @return string       : urls separated with [{()}]
+     */
     private function _formatUrl($url) {
         $urlFormatted = null;
         $urlPrepare = ltrim($url);
@@ -106,6 +161,11 @@ class ActivityAdministration extends Controller {
         return $urlFormatted;
     }
 
+    /**
+     * Fetches data when a form is submitted
+     * @param int $id   : activity id. Default = ''
+     * @return array    : array with POST data
+     */
     private function _fetchPostActivityData($id = "") {
         $data = array(
             'workshop_id' => $id,
@@ -121,6 +181,10 @@ class ActivityAdministration extends Controller {
         return $data;
     }
 
+    /**
+     * Shows a view called $filename
+     * @param string $filename  : filename to be shown in view
+     */
     private function _renderArrayDefault($filename) {
         $array = array(
             1 => "manager/menuaction",

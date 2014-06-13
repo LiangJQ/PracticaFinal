@@ -4,12 +4,19 @@
  * Author: Liang Shan Ji
  */
 
+/**
+ * Handles user's invitations for activities
+ */
 class Invitation_Model extends Model {
 
     function __construct() {
         parent::__construct();
     }
 
+    /**
+     * Fetches title and date of activity, name of the activity manager, table and seat for the user.
+     * @return array    : array of objects
+     */
     public function listActivitiesInvited() {
         
         $attr = array(

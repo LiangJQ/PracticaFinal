@@ -23,7 +23,7 @@
                     <td><span>Title</span></td>
                     <td colspan="2"><?php echo $value->workshop_name; ?></td>
                     <td><span>Activity manager</span></td>          
-                    <td colspan="2"><?php echo $value->user_surname . ", " . $value->user_surname; ?></td>    
+                    <td colspan="2"><?php echo $value->user_surname . ", " . $value->user_name; ?></td>    
                 </tr>
                 <tr>
                     <td><span>Date</span></td>

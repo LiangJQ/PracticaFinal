@@ -4,14 +4,23 @@
  * Author: Liang Shan Ji
  */
 
+/**
+ * Manages user activities actions such as create, edit, invite users, ditribute users and send request to authorize an activity
+ */
 class Workshop extends Controller {
 
+    /**
+     * Checks if user is logged in
+     * Exit to home page if user is not logged in.
+     */
     function __construct() {
         parent::__construct();
-
         Auth::checkLoggedIn();
     }
 
+    /**
+     * Base page
+     */
     function index() {
         $hasActivity = !empty($this->model->getUserActivity(Session::get('user_id'))->workshop_id) ? $this->model->getUserActivity(Session::get('user_id'))->workshop_id : '';
         Session::set('userActivity', $hasActivity);
@@ -19,6 +28,9 @@ class Workshop extends Controller {
         $this->_renderArrayDefault('index');
     }
 
+    /**
+     * Redirect to another page to distribute users according to a list with users previously selected in "invite users"
+     */
     function distributeUsers() {
         $userActivity = $this->model->getUserActivity(Session::get('user_id'));
         $this->view->userActivity = $userActivity;
@@ -50,6 +62,9 @@ class Workshop extends Controller {
         $this->view->renderOnePage('workshop/distributeUsers', true);
     }
 
+    /**
+     * Saves assigned table and seat of each user to database
+     */
     function distributeUsersSave() {
         $userDistributionList = json_decode(filter_input(INPUT_POST, 'user_distribution'));
 
@@ -80,6 +95,10 @@ class Workshop extends Controller {
         header('Location: ' . URL . 'workshop/distributeUsers');
     }
 
+    /**
+     * Redirects to another page to invite users selecting desired users 
+     * to attend the user's activity in a list that contains all users of website
+     */
     function inviteUsers() {
         $usersInvited = array();
         if (!empty(Session::get('userActivity'))) {
@@ -101,6 +120,9 @@ class Workshop extends Controller {
         $this->_renderArrayDefault('inviteUsers');
     }
 
+    /**
+     * Saves all users select from a list containing all users of the website
+     */
     function inviteUsersList() {
         $userChecked = $this->_fetchPostUserList();
         $userList = $this->model->listUsersToInvite();
@@ -118,18 +140,32 @@ class Workshop extends Controller {
         header('Location: ' . URL . 'workshop/inviteUsers');
     }
 
+    /**
+     * Redirects to another page to confirm user's activity
+     */
     function confirmActivity() {
         $this->model->emptyInvitedUsersNoSeat();
         $this->view->userActivity = $this->model->getUserActivity(Session::get('user_id'));
         $this->_renderArrayDefault('confirmActivity');
     }
 
+    /**
+     * Confirms user's activity. 
+     * Once confirmed the user cannot edit his/her activity except deleting it.
+     * Sends a request to authorize the activity
+     * 
+     * @param int $id   : user's activity id
+     */
     function confirmActivitySave($id) {
         $this->model->confirmActivitySave($id);
         $this->view->userActivity = $this->model->getUserActivity(Session::get('user_id'));
         $this->_renderArrayDefault('confirmActivity');
     }
 
+    /**
+     * Redirects to a page to either create an activity if user doesn't have one,
+     * edit user's activity or deletes it.
+     */
     function manageActivity() {
         $this->view->listActivitiesLimited = $this->model->listActivitiesLimited();
         $this->view->userActivity = $this->model->getUserActivity(Session::get('user_id'));
@@ -139,6 +175,9 @@ class Workshop extends Controller {
         Session::set('deleteActivity_success?', '');
     }
 
+    /**
+     * Creates an activity for the user
+     */
     function createActivity() {
         $data = $this->_fetchPostActivityData();
 
@@ -153,6 +192,10 @@ class Workshop extends Controller {
         header('Location: ' . URL . 'workshop/manageActivity');
     }
 
+    /**
+     * Saves all modification done to user's activity
+     * @param int $id   : user's activity id
+     */
     function editActivitySave($id) {
         $data = $this->_fetchPostActivityData();
 
@@ -172,6 +215,10 @@ class Workshop extends Controller {
         header('Location: ' . URL . 'workshop/manageActivity');
     }
 
+    /**
+     * Deletes user's activity
+     * @param int $id   : user's activity id
+     */
     function deleteActivity($id) {
         $this->model->deleteActivity($id);
         Session::set('deleteActivity_success?', ACTIVITY_DELETED);
@@ -179,6 +226,10 @@ class Workshop extends Controller {
         header('Location: ' . URL . 'workshop/manageActivity');
     }
 
+    /**
+     * Fetch POST data that contains user's id
+     * @return array    : array of user's ids
+     */
     private function _fetchPostUserList() {
         $data = array();
         if (!empty($_POST['user_id'])) {
@@ -189,6 +240,10 @@ class Workshop extends Controller {
         return $data;
     }
 
+    /**
+     * Fetches data that contains user's activity data
+     * @return array    : array with POST data
+     */
     private function _fetchPostActivityData() {
         $data = array(
             'workshop_user_id' => Session::get('user_id'),
@@ -201,6 +256,10 @@ class Workshop extends Controller {
         return $data;
     }
 
+    /**
+     * Shows a view called $filename
+     * @param string $filename  : filename to be shown in view
+     */
     private function _renderArrayDefault($filename) {
         $array = array(
             1 => "workshop/menuaction",
@@ -209,6 +268,12 @@ class Workshop extends Controller {
         $this->view->renderArray($array);
     }
 
+    /**
+     * Formats urls in order to save them to database
+     * 
+     * @param string $url   : urls separated with '\n'
+     * @return string       : urls separated with [{()}]
+     */
     private function _formatUrl($url) {
         $urlFormatted = null;
         $urlPrepare = ltrim($url);

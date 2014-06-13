@@ -4,12 +4,20 @@
  * Author: Liang Shan Ji
  */
 
+/**
+ * Handles activities
+ */
 class Activities_Model extends Model {
 
     function __construct() {
         parent::__construct();
     }
 
+    /**
+     * Fetches all activities rows of `workshop` table where have been authorized
+     * sorted by date
+     * @return array    : array of activities object
+     */
     public function listActivities() {
 
         // get activities data

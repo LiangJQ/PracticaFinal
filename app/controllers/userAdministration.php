@@ -4,18 +4,33 @@
  * Author: Liang Shan Ji
  */
 
+/**
+ * Manages users actions such as edit, create, delete users
+ */
 class UserAdministration extends Controller {
 
+    /**
+     * When constructs, check if user is logged in and is admin.
+     * It will automatically exit to index of web if user is not logged in or is an admin
+     */
     function __construct() {
         parent::__construct();
         Auth::checkLoggedIn();
         Auth::checkAdmin();
     }
 
+    /**
+     * Base page
+     */
     function index() {
         header('Location: ' . URL . 'manager');
     }
 
+    /**
+     * Lists all existing users.
+     * Passing to view a list of users.
+     * Redirect to editusers page
+     */
     function listUsers() {
         $data = $this->model->listUsers();
         is_array($data) ? $this->view->listUsers = $data : $this->view->listUsers = array($data);
@@ -24,6 +39,10 @@ class UserAdministration extends Controller {
         Session::set('deleteUser_success?', '');
     }
 
+    /**
+     * Creates a new user
+     * Redirect to listUsers action
+     */
     function createUser() {
         $data = $this->_fetchPostUserData();
 
@@ -42,6 +61,12 @@ class UserAdministration extends Controller {
         header('Location: ' . URL . 'userAdministration/listUsers');
     }
 
+    /**
+     * Deletes user by passing an user id
+     * Redirect to listUsers action
+     * 
+     * @param int $id : user id to be deleted
+     */
     function deleteUser($id) {
         if (Session::get('user_role') == ROLE_ADMIN) {
             $userToDelete = $this->model->singleUser($id);
@@ -58,12 +83,23 @@ class UserAdministration extends Controller {
         header('Location: ' . URL . 'userAdministration/listUsers');
     }
 
+    /**
+     * Redirects to another page to edit user by passing an user id
+     * 
+     * @param int $id : user id to be user
+     */
     function editUser($id) {
         $this->view->user = $this->model->singleUser($id);
         $this->_renderArrayDefault('edituser');
         Session::set('editUser_success?', '');
     }
 
+    /**
+     * Saves all changes made of an user passing an user id
+     * Redirects to edituser action
+     * 
+     * @param int $id : user id to be user
+     */
     function editUserSave($id) {
         $data = $this->_fetchPostUserData();
 
@@ -96,6 +132,11 @@ class UserAdministration extends Controller {
         }
     }
 
+    /**
+     * Fetches data when a form is submitted
+     * 
+     * @return array    : array with POST data
+     */
     private function _fetchPostUserData() {
         $data = array(
             'user_id' => filter_input(INPUT_POST, 'user_id'),
@@ -108,6 +149,10 @@ class UserAdministration extends Controller {
         return $data;
     }
 
+    /**
+     * Shows a view called $filename
+     * @param string $filename  : filename to be shown in view
+     */
     private function _renderArrayDefault($filename) {
         $array = array(
             1 => "manager/menuaction",

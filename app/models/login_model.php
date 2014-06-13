@@ -4,12 +4,22 @@
  * Author: Liang Shan Ji
  */
 
+/**
+ * Handles login process
+ */
 class Login_Model extends Model {
 
     function __construct() {
         parent::__construct();
     }
 
+    /**
+     * Compares passed id and password with database.
+     * If matches set user's information to SESSION.
+     * If not, exit to home page
+     * @param array $data   : user's id and password
+     * @return boolean  : true if logged in, otherwise false
+     */
     public function login($data) {
 
         // get user's data
@@ -50,8 +60,10 @@ class Login_Model extends Model {
         return false;
     }
 
+    /**
+     * Logout, exit to homepage, destroy SESSION
+     */
     public function logout() {
-        echo 'logout';
         Session::destroy();
         header('location: ' . URL . 'index');
         exit;

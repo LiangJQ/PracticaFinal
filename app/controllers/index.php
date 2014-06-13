@@ -4,6 +4,9 @@
  * Author: Liang Shan Ji
  */
 
+/**
+ * Home page
+ */
 class Index extends Controller {
 
     function __construct() {

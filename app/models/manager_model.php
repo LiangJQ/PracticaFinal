@@ -4,12 +4,20 @@
  * Author: Liang Shan Ji
  */
 
+/**
+ * Handles user's information
+ */
 class Manager_Model extends Model {
 
     function __construct() {
         parent::__construct();
     }
 
+    /**
+     * Changes password of users
+     * Update database
+     * @param array $data   : user's information data
+     */
     public function changePassword($data) {
         $attr = array('user_password');
         $condition = "WHERE user_id = :user_id";
