@@ -1,6 +1,6 @@
 <?php
 
-/* 
+/*
  * Author: Liang Shan Ji
  */
 
@@ -10,54 +10,23 @@ class Invitation_Model extends Model {
         parent::__construct();
     }
 
-    public function login() {
-        // get user's data
-        $sth = $this->db->prepare("SELECT user_id,
-                                          user_name,
-                                          user_email,
-                                          user_password,
-                                          user_parent_id
-                                   FROM   users
-                                   WHERE  (user_id = :user_id)");
-        $sth->execute(array(':user_id' => filter_input(INPUT_POST, 'user_id')));
-
-        $count = $sth->rowCount();
-
-//        // if there's NOT one result
-//        if ($count != 1) {
-//            $_SESSION["feedback_negative"][] = FEEDBACK_LOGIN_FAILED;
-//            return false;
-//        }
-        // fetch one row (only have one result)
-        $result = $sth->fetch();
-
-        // check if provided password matches the password in the database
-        if (filter_input(INPUT_POST, 'user_password') == $result->user_password) {
-
-            print_r($result->user_id);
-
-            // login process, write the user data into session
-            Session::init();
-            Session::set('is_user_logged_in', USER_LOGGED_IN);
-            Session::set('user_id', $result->user_id);
-            Session::set('user_name', $result->user_name);
-            Session::set('user_email', $result->user_email);
-            
-            header('location: ' . URL . 'index');
-
-            // return true to make clear the login was successful
-            return true;
-        }
-
-        // default return
-        return false;
-    }
-
-    public function logout() {
-        echo 'logout';
-        Session::destroy();
-        header('location: ' . URL . 'index');
-        exit;
+    public function listActivitiesInvited() {
+        
+        $attr = array(
+            'user_name',
+            'user_surname',
+            'workshop_name',
+            'workshop_date',
+            'area_table',
+            'area_seat'
+        );
+        $condition = " INNER JOIN `area` ON  workshop_id = area_id INNER JOIN `users` ON workshop_user_id = user_id WHERE workshop_date BETWEEN CURRENT_DATE AND CURRENT_DATE + INTERVAL " . LIMIT_DAY_VIEW . " DAY "
+                . "AND workshop_authorize = :workshop_authorize AND area_user_id = :area_user_id ORDER BY workshop_date ASC";
+        $conditionArrayValues = array(
+            'workshop_authorize' => 'Y',
+            'area_user_id' => Session::get('user_id')
+        );
+        return $this->db->select('workshop', $attr, $condition, $conditionArrayValues);
     }
 
 }

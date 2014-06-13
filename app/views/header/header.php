@@ -25,12 +25,9 @@
                                 <label class="textstyle" for="user_password">Password</label>
                                 <input type="password" name="user_password" id="login_input_password" placeholder="Password" class="login_input" autocomplete="off" required> 
                             </p>
-                            <p class="loginText">
+                            <p class="loginSubmit">
                                 <input type="submit" name="login" value="Log in">
                             </p>       
-                            <p class="loginText"> 
-                                <input type="button" name="register" value="Register" onclick="alert('TODO')">
-                            </p>     
                         </form>     
                     <?php } else { ?>          
                         <!-- user information -->

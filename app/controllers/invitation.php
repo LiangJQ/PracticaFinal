@@ -13,6 +13,12 @@ class Invitation extends Controller {
     }
 
     function index() {
+        $list = $this->model->listActivitiesInvited();
+        if (!empty($list)) {
+            is_array($list) ? $this->view->listActivitiesInvited = $list : $this->view->listActivitiesInvited = array($list);
+        } else {
+            $this->view->listActivitiesInvited = $list;
+        }
         $this->view->render('invitation/index');
     }
 

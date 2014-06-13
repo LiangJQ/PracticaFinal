@@ -70,7 +70,7 @@ class ActivityAdministration_Model extends Model {
     }
 
     public function listActivitiesAuthorize() {
-        $condition = "WHERE workshop_request = :workshop_request AND workshop_authorize = :workshop_authorize ORDER BY workshop_date ASC";
+        $condition = "WHERE workshop_date BETWEEN CURRENT_DATE AND CURRENT_DATE + INTERVAL " . LIMIT_DAY_VIEW . " DAY AND workshop_request = :workshop_request AND workshop_authorize = :workshop_authorize ORDER BY workshop_date ASC";
         $conditionArrayValues = array(
             'workshop_request' => 'Y',
             'workshop_authorize' => 'P'

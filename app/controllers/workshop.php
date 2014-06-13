@@ -9,11 +9,7 @@ class Workshop extends Controller {
     function __construct() {
         parent::__construct();
 
-        if (empty(Session::get('is_user_logged_in'))) {
-            Session::destroy();
-            header('location: ' . URL . 'index');
-            exit;
-        }
+        Auth::checkLoggedIn();
     }
 
     function index() {
@@ -86,9 +82,11 @@ class Workshop extends Controller {
 
     function inviteUsers() {
         $usersInvited = array();
-        $data = $this->model->listUsersToInvite();
-        is_array($data) ? $this->view->listUsers = $data : $this->view->listUsers = array($data);
-        $dataUsersInvited = $this->model->listUsersInvited();
+        if (!empty(Session::get('userActivity'))) {
+            $data = $this->model->listUsersToInvite();
+            is_array($data) ? $this->view->listUsers = $data : $this->view->listUsers = array($data);
+            $dataUsersInvited = $this->model->listUsersInvited();
+        }
         if (!empty($dataUsersInvited)) {
             if (!is_array($dataUsersInvited)) {
                 $usersInvited[] = $dataUsersInvited->area_user_id;

@@ -19,5 +19,4 @@ class Activities extends Controller {
         }
         $this->view->render('activities/index');
     }
-
 }
